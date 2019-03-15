@@ -1,11 +1,23 @@
 package com.ubiquisoft.evaluation.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.ubiquisoft.evaluation.domain.PartType.*;
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Car {
@@ -17,21 +29,29 @@ public class Car {
 	private List<Part> parts;
 
 	public Map<PartType, Integer> getMissingPartsMap() {
-		/*
-		 * Return map of the part types missing.
-		 *
-		 * Each car requires one of each of the following types:
-		 *      ENGINE, ELECTRICAL, FUEL_FILTER, OIL_FILTER
-		 * and four of the type: TIRE
-		 *
-		 * Example: a car only missing three of the four tires should return a map like this:
-		 *
-		 *      {
-		 *          "TIRE": 3
-		 *      }
-		 */
+		final int REQUIRED_ENGINE = 1;
+		final int REQUIRED_ELECTRICAL = 1;
+		final int REQUIRED_FUEL_FILTER = 1;
+		final int REQUIRED_OIL_FILTER = 1;
+		final int REQUIRED_TIRES = 4;
 
-		return null;
+		Map<PartType, Integer> missingParts = new HashMap<>();
+		missingParts.put(ENGINE, REQUIRED_ENGINE - this.partTypeCount(ENGINE));
+		missingParts.put(ELECTRICAL, REQUIRED_ELECTRICAL - this.partTypeCount(ELECTRICAL));
+		missingParts.put(FUEL_FILTER, REQUIRED_FUEL_FILTER - this.partTypeCount(FUEL_FILTER));
+		missingParts.put(OIL_FILTER, REQUIRED_OIL_FILTER - this.partTypeCount(OIL_FILTER));
+		missingParts.put(TIRE, REQUIRED_TIRES - this.partTypeCount(TIRE));
+		return missingParts;
+	}
+
+	private Integer partTypeCount(PartType partType) {
+		int count = 0;
+		for(Part part : this.parts) {
+			if(part.getType().equals(partType)) {
+				count++;
+			}
+		}
+		return count;
 	}
 
 	@Override
@@ -43,45 +63,4 @@ public class Car {
 				       ", parts=" + parts +
 				       '}';
 	}
-
-	/* --------------------------------------------------------------------------------------------------------------- */
-	/*  Getters and Setters *///region
-	/* --------------------------------------------------------------------------------------------------------------- */
-
-	public String getYear() {
-		return year;
-	}
-
-	public void setYear(String year) {
-		this.year = year;
-	}
-
-	public String getMake() {
-		return make;
-	}
-
-	public void setMake(String make) {
-		this.make = make;
-	}
-
-	public String getModel() {
-		return model;
-	}
-
-	public void setModel(String model) {
-		this.model = model;
-	}
-
-	public List<Part> getParts() {
-		return parts;
-	}
-
-	public void setParts(List<Part> parts) {
-		this.parts = parts;
-	}
-
-	/* --------------------------------------------------------------------------------------------------------------- */
-	/*  Getters and Setters End *///endregion
-	/* --------------------------------------------------------------------------------------------------------------- */
-
 }

@@ -1,9 +1,18 @@
 package com.ubiquisoft.evaluation.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Part {
@@ -13,7 +22,6 @@ public class Part {
 	private PartType type;
 
 	private ConditionType condition;
-
 
 	public boolean isInWorkingCondition() {
 		switch (this.condition) {
@@ -34,37 +42,5 @@ public class Part {
 				       ", condition=" + condition +
 				       '}';
 	}
-
-	/* --------------------------------------------------------------------------------------------------------------- */
-	/*  Getters and Setters *///region
-	/* --------------------------------------------------------------------------------------------------------------- */
-
-	public String getInventoryId() {
-		return inventoryId;
-	}
-
-	public void setInventoryId(String inventoryId) {
-		this.inventoryId = inventoryId;
-	}
-
-	public PartType getType() {
-		return type;
-	}
-
-	public void setType(PartType type) {
-		this.type = type;
-	}
-
-	public ConditionType getCondition() {
-		return condition;
-	}
-
-	public void setCondition(ConditionType condition) {
-		this.condition = condition;
-	}
-
-	/* --------------------------------------------------------------------------------------------------------------- */
-	/*  Getters and Setters End *///endregion
-	/* --------------------------------------------------------------------------------------------------------------- */
 
 }
